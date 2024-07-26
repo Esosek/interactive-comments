@@ -1,13 +1,18 @@
 "use client";
-import CommentList from "@/components/comments/CommentList";
 import styles from "./page.module.css";
-import { useUserStore } from "@/stores/userStore";
+
+import Comment from "@/components/comments/Comment";
+import { useCommentStore } from "@/stores/commentStore";
 
 export default function Home() {
-  const loggedUser = useUserStore((state) => state.loggedUser);
+  const comments = useCommentStore((state) => state.comments);
   return (
     <main>
-      <CommentList />
+      <ul>
+        {comments.map((comment) => (
+          <Comment key={comment.id} comment={comment} />
+        ))}
+      </ul>
     </main>
   );
 }
