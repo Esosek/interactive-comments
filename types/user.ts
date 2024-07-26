@@ -1,5 +1,7 @@
 export type User = {
-  id: number;
-  name: string;
-  avatarPath: string;
+  username: string;
+  image: {
+    png: string;
+    webp: string;
+  };
 };

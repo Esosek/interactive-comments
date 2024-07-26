@@ -1,6 +1,8 @@
 import { type UserComment } from "@/types/userComment";
 import { create } from "zustand";
 
+import commentData from "data.json";
+
 type CommentStoreType = {
   comments: UserComment[];
   addComment: (comment: UserComment, parentCommentId?: number | null) => void;
@@ -15,8 +17,8 @@ type CommentStoreType = {
 };
 
 const userCommentStore = create<CommentStoreType>((set) => ({
-  // TODO: Implemnet userCommentStore
-  comments: [],
+  // TODO: Implemnet userCommentStore methods
+  comments: commentData.comments,
   addComment: (commentId, parentCommentId = null) => {},
   deleteComment: (commentId, loggedUser) => {},
   editComment: (commentId, loggedUser, updatedComment) => {},
