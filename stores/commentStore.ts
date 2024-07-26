@@ -1,8 +1,9 @@
-import { type UserComment } from "@/types/userComment";
+import { create } from "zustand";
 
 import commentData from "data.json";
+import { type UserComment } from "@/types/userComment";
 
-export type CommentStoreType = {
+type CommentStoreType = {
   comments: UserComment[];
   addComment: (comment: UserComment, parentCommentId?: number | null) => void;
   deleteComment: (commentId: number, loggedUser: number) => void;
@@ -15,14 +16,7 @@ export type CommentStoreType = {
   downvoteComment: (commentId: number, loggedUser: number) => void;
 };
 
-type SetState = (
-  partial:
-    | Partial<CommentStoreType>
-    | ((state: CommentStoreType) => CommentStoreType),
-  replace?: boolean
-) => void;
-
-export const createCommentStore = (set: SetState): CommentStoreType => ({
+export const useCommentStore = create<CommentStoreType>((set) => ({
   // TODO: Implement userCommentStore methods
   comments: commentData.comments,
   addComment: (commentId, parentCommentId = null) => {},
@@ -30,4 +24,4 @@ export const createCommentStore = (set: SetState): CommentStoreType => ({
   editComment: (commentId, loggedUser, updatedComment) => {},
   upvoteComment: (commentId, loggedUser) => {},
   downvoteComment: (commentId, loggedUser) => {},
-});
+}));

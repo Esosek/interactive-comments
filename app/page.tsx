@@ -1,9 +1,9 @@
 "use client";
-import { useStore } from "@/stores/globalStore";
 import styles from "./page.module.css";
+import { useUserStore } from "@/stores/userStore";
 
 export default function Home() {
-  const loggedUser = useStore((state) => state.loggedUser);
+  const { loggedUser } = useUserStore();
   return (
     <main>
       <h1>Hello World!</h1>

@@ -1,3 +1,5 @@
+import { create } from "zustand";
+
 import { User } from "@/types/user";
 
 const initialUser = {
@@ -8,20 +10,15 @@ const initialUser = {
   username: "juliusomo",
 };
 
-export type UserStoreType = {
+type UserStoreType = {
   loggedUser: User | null;
   login: (user: User) => void;
   logout: () => void;
 };
 
-type SetState = (
-  partial: Partial<UserStoreType> | ((state: UserStoreType) => UserStoreType),
-  replace?: boolean
-) => void;
-
-export const createUserStore = (set: SetState): UserStoreType => ({
+export const useUserStore = create<UserStoreType>((set) => ({
   // TODO: Implement userSlice methods
   loggedUser: initialUser,
   login: (user: User) => {},
   logout: () => {},
-});
+}));
