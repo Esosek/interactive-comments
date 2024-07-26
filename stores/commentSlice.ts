@@ -1,9 +1,8 @@
 import { type UserComment } from "@/types/userComment";
-import { create } from "zustand";
 
 import commentData from "data.json";
 
-type CommentStoreType = {
+export type CommentSliceType = {
   comments: UserComment[];
   addComment: (comment: UserComment, parentCommentId?: number | null) => void;
   deleteComment: (commentId: number, loggedUser: number) => void;
@@ -16,12 +15,19 @@ type CommentStoreType = {
   downvoteComment: (commentId: number, loggedUser: number) => void;
 };
 
-const userCommentStore = create<CommentStoreType>((set) => ({
-  // TODO: Implemnet userCommentStore methods
+type SetState = (
+  partial:
+    | Partial<CommentSliceType>
+    | ((state: CommentSliceType) => CommentSliceType),
+  replace?: boolean
+) => void;
+
+export const createCommentSlice = (set: SetState): CommentSliceType => ({
+  // TODO: Implement userCommentStore methods
   comments: commentData.comments,
   addComment: (commentId, parentCommentId = null) => {},
   deleteComment: (commentId, loggedUser) => {},
   editComment: (commentId, loggedUser, updatedComment) => {},
   upvoteComment: (commentId, loggedUser) => {},
   downvoteComment: (commentId, loggedUser) => {},
-}));
+});
