@@ -9,6 +9,10 @@ const createJestConfig = nextJest({
 // Add any custom config to be passed to Jest
 const config: Config = {
   coverageProvider: "v8",
+  // Automatically clear mock calls, instances, contexts and results before every test
+  clearMocks: true,
+  // Indicates whether the coverage information should be collected while executing the test
+  collectCoverage: true,
   testEnvironment: "jsdom",
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/$1",
