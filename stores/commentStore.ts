@@ -2,7 +2,7 @@ import { type UserComment } from "@/types/userComment";
 
 import commentData from "data.json";
 
-export type CommentSliceType = {
+export type CommentStoreType = {
   comments: UserComment[];
   addComment: (comment: UserComment, parentCommentId?: number | null) => void;
   deleteComment: (commentId: number, loggedUser: number) => void;
@@ -17,12 +17,12 @@ export type CommentSliceType = {
 
 type SetState = (
   partial:
-    | Partial<CommentSliceType>
-    | ((state: CommentSliceType) => CommentSliceType),
+    | Partial<CommentStoreType>
+    | ((state: CommentStoreType) => CommentStoreType),
   replace?: boolean
 ) => void;
 
-export const createCommentSlice = (set: SetState): CommentSliceType => ({
+export const createCommentStore = (set: SetState): CommentStoreType => ({
   // TODO: Implement userCommentStore methods
   comments: commentData.comments,
   addComment: (commentId, parentCommentId = null) => {},

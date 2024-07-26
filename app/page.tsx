@@ -1,5 +1,5 @@
 "use client";
-import { useStore } from "@/stores/useStore";
+import { useStore } from "@/stores/globalStore";
 import styles from "./page.module.css";
 
 export default function Home() {

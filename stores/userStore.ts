@@ -8,18 +8,18 @@ const initialUser = {
   username: "juliusomo",
 };
 
-export type UserSliceType = {
+export type UserStoreType = {
   loggedUser: User | null;
   login: (user: User) => void;
   logout: () => void;
 };
 
 type SetState = (
-  partial: Partial<UserSliceType> | ((state: UserSliceType) => UserSliceType),
+  partial: Partial<UserStoreType> | ((state: UserStoreType) => UserStoreType),
   replace?: boolean
 ) => void;
 
-export const createUserSlice = (set: SetState): UserSliceType => ({
+export const createUserStore = (set: SetState): UserStoreType => ({
   // TODO: Implement userSlice methods
   loggedUser: initialUser,
   login: (user: User) => {},
