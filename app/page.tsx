@@ -8,7 +8,7 @@ export default function Home() {
   const comments = useCommentStore((state) => state.comments);
   return (
     <main>
-      <ul>
+      <ul className={styles.commentList}>
         {comments.map((comment) => (
           <Comment key={comment.id} comment={comment} />
         ))}

@@ -74,3 +74,11 @@ h6 {
 ul {
   list-style-type: none;
 }
+
+button {
+  border: none;
+  background: none;
+}
+button:hover {
+  cursor: pointer;
+}
