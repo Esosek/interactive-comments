@@ -1,12 +1,12 @@
-import Image from "next/image";
+import Image from "next/image"
 
-import styles from "./styles/UserImage.module.css";
+import styles from "./styles/UserImage.module.css"
 
 type UserImageProps = {
-  username: string;
-  imagePath: string;
-  sizeInRem?: number;
-};
+  username: string
+  imagePath: string
+  sizeInRem?: number
+}
 
 export default function UserImage({
   username,
@@ -25,5 +25,5 @@ export default function UserImage({
         sizes={`${sizeInRem}rem`}
       />
     </div>
-  );
+  )
 }

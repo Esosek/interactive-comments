@@ -1,13 +1,13 @@
-import CommentButtons from "./CommentButtons";
-import CommentHeader from "./CommentHeader";
-import CommentVotes from "./CommentVotes";
-import styles from "./styles/Comment.module.css";
-import { UserComment } from "@/types/userComment";
+import CommentButtons from "./CommentButtons"
+import CommentHeader from "./CommentHeader"
+import CommentVotes from "./CommentVotes"
+import styles from "./styles/Comment.module.css"
+import { UserComment } from "@/types/userComment"
 
 type CommentProps = {
-  comment: UserComment;
-  isReply?: boolean;
-};
+  comment: UserComment
+  isReply?: boolean
+}
 
 export default function Comment({ comment, isReply = false }: CommentProps) {
   return (
@@ -17,5 +17,5 @@ export default function Comment({ comment, isReply = false }: CommentProps) {
       <CommentButtons />
       <p>{comment.content}</p>
     </li>
-  );
+  )
 }

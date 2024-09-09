@@ -1,12 +1,12 @@
-import { User } from "@/types/user";
+import { User } from "@/types/user"
 
-import styles from "./styles/CommentHeader.module.css";
-import UserImage from "../ui/UserImage";
+import styles from "./styles/CommentHeader.module.css"
+import UserImage from "../common/UserImage"
 
 type CommentHeaderProps = {
-  user: User;
-  createdAt: string;
-};
+  user: User
+  createdAt: string
+}
 
 export default function CommentHeader({
   user,
@@ -18,5 +18,5 @@ export default function CommentHeader({
       <p>{user.username}</p>
       <p>{postedAt}</p>
     </div>
-  );
+  )
 }

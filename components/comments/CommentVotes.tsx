@@ -1,17 +1,17 @@
-"use client";
-import styles from "./styles/CommentVotes.module.css";
+"use client"
+import styles from "./styles/CommentVotes.module.css"
 
 type CommentVotesProps = {
-  score: number;
-};
+  score: number
+}
 
 export default function CommentVotes({ score }: CommentVotesProps) {
   const handleIncrement = () => {
     //TODO: Implement increment
-  };
+  }
   const handleDecrement = () => {
     //TODO: Implement decrement
-  };
+  }
   return (
     <div className={styles.card}>
       <button onClick={handleIncrement} className={styles.control}>
@@ -31,5 +31,5 @@ export default function CommentVotes({ score }: CommentVotesProps) {
         </svg>
       </button>
     </div>
-  );
+  )
 }

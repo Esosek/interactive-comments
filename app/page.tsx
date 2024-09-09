@@ -1,11 +1,11 @@
-"use client";
-import styles from "./page.module.css";
+"use client"
+import styles from "./page.module.css"
 
-import Comment from "@/components/comments/Comment";
-import { useCommentStore } from "@/stores/commentStore";
+import Comment from "@/components/comments/Comment"
+import { useCommentStore } from "@/stores/commentStore"
 
 export default function Home() {
-  const comments = useCommentStore((state) => state.comments);
+  const comments = useCommentStore((state) => state.comments)
   return (
     <main>
       <ul className={styles.commentList}>
@@ -14,5 +14,5 @@ export default function Home() {
         ))}
       </ul>
     </main>
-  );
+  )
 }
