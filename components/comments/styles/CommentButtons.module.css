@@ -1,0 +1,12 @@
+.replyBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.iconWrapper {
+  position: relative;
+  height: 0.75rem;
+  width: 0.75rem;
+}
