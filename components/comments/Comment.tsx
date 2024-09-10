@@ -1,8 +1,9 @@
-import CommentButtons from "./CommentButtons"
-import CommentHeader from "./CommentHeader"
-import CommentVotes from "./CommentVotes"
-import styles from "./styles/Comment.module.css"
-import { UserComment } from "@/types/userComment"
+import { useUserStore } from '@/stores/userStore'
+import CommentButtons from './CommentButtons'
+import CommentHeader from './CommentHeader'
+import CommentVotes from './CommentVotes'
+import styles from './styles/Comment.module.css'
+import { UserComment } from '@/types/userComment'
 
 type CommentProps = {
   comment: UserComment
@@ -10,11 +11,13 @@ type CommentProps = {
 }
 
 export default function Comment({ comment, isReply = false }: CommentProps) {
+  const { loggedUser } = useUserStore()
+  const isUserOwned = loggedUser?.username === comment.user.username
   return (
     <li className={styles.comment}>
       <CommentVotes score={comment.score} />
       <CommentHeader user={comment.user} createdAt={comment.createdAt} />
-      <CommentButtons />
+      <CommentButtons isUserOwned={isUserOwned} />
       <p>{comment.content}</p>
     </li>
   )

@@ -1,8 +1,19 @@
-.replyBtn {
+.commentButtons {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.btn {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  font-weight: var(--fw-semibold);
+  transition: opacity 100ms ease-out;
+}
+
+.btn:hover {
+  opacity: 0.5;
 }
 
 .iconWrapper {

@@ -1,13 +1,13 @@
-import { create } from "zustand"
+import { create } from 'zustand'
 
-import { User } from "@/types/user"
+import { User } from '@/types/user'
 
 const initialUser = {
   image: {
-    png: "./images/avatars/image-juliusomo.png",
-    webp: "./images/avatars/image-juliusomo.webp",
+    png: './images/avatars/image-juliusomo.png',
+    webp: './images/avatars/image-juliusomo.webp',
   },
-  username: "juliusomo",
+  username: 'juliusomo',
 }
 
 type UserStoreType = {
