@@ -18,7 +18,7 @@ export default function Comment({ comment, isReply = false }: CommentProps) {
   const { loggedUser } = useUserStore()
   const isUserOwned = loggedUser?.username === comment.user.username
   return (
-    <li className={styles.commentItem}>
+    <li>
       <Card>
         <div className={styles.comment}>
           <CommentVotes score={comment.score} />

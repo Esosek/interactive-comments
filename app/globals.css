@@ -40,6 +40,12 @@ body {
   background-color: var(--clr-neutral-100);
 }
 
+main {
+  max-width: 750px;
+  margin: 5rem auto;
+  padding-inline: 1rem;
+}
+
 img,
 picture,
 video,
@@ -83,4 +89,10 @@ button {
 }
 button:hover {
   cursor: pointer;
+}
+
+@media only screen and (max-width: 768px) {
+  main {
+    margin-block: 2rem;
+  }
 }

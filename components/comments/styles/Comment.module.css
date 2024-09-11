@@ -1,8 +1,3 @@
-.commentItem {
-  max-width: 750px;
-  margin-inline: auto;
-}
-
 .comment {
   display: grid;
   grid-template-columns: auto 1fr auto;

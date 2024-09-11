@@ -1,9 +1,0 @@
-.commentList {
-  margin: 5rem 1rem;
-}
-
-@media only screen and (max-width: 768px) {
-  .commentList {
-    margin-block: 2rem;
-  }
-}
