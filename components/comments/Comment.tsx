@@ -4,6 +4,7 @@ import CommentHeader from './CommentHeader'
 import CommentVotes from './CommentVotes'
 import styles from './styles/Comment.module.css'
 import { UserComment } from '@/types/userComment'
+import CommentReplies from './CommentReplies'
 
 type CommentProps = {
   comment: UserComment
@@ -29,13 +30,7 @@ export default function Comment({ comment, isReply = false }: CommentProps) {
         </p>
       </div>
       {!isReply && comment.replies && (
-        <ul className={styles.replies}>
-          {comment.replies.map((reply) => (
-            <li key={reply.id}>
-              <Comment comment={reply} isReply />
-            </li>
-          ))}
-        </ul>
+        <CommentReplies replies={comment.replies} />
       )}
     </li>
   )
