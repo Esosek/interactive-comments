@@ -4,8 +4,8 @@ import { User } from '@/types/user'
 
 const initialUser = {
   image: {
-    png: './images/avatars/image-juliusomo.png',
-    webp: './images/avatars/image-juliusomo.webp',
+    png: '/images/avatars/image-juliusomo.png',
+    webp: '/images/avatars/image-juliusomo.webp',
   },
   username: 'juliusomo',
 }

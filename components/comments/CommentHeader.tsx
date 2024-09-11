@@ -17,7 +17,7 @@ export default function CommentHeader({
   const isUserOwned = loggedUser?.username === user.username
   return (
     <div className={styles.header}>
-      <UserImage username={user.username} imagePath={user.image.webp} />
+      <UserImage user={user} />
       <p className={styles.username}>{user.username}</p>
       {isUserOwned && <p className={styles.userLabel}>you</p>}
       <p className={styles.postedText}>{postedAt}</p>
