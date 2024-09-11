@@ -1,4 +1,4 @@
-import { type User } from "./user"
+import { type User } from './user'
 
 export type UserComment = {
   id: number
@@ -6,5 +6,6 @@ export type UserComment = {
   createdAt: string
   score: number
   user: User
+  replyingTo?: string
   replies?: UserComment[]
 }

@@ -1,7 +1,7 @@
 export type User = {
-  username: string;
+  username: string
   image: {
-    png: string;
-    webp: string;
-  };
-};
+    png: string
+    webp: string
+  }
+}
