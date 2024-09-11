@@ -21,3 +21,10 @@
   height: 0.75rem;
   width: 0.75rem;
 }
+
+@media only screen and (max-width: 768px) {
+  .commentButtons {
+    grid-row-start: 3;
+    justify-self: end;
+  }
+}

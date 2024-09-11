@@ -4,3 +4,10 @@
   margin-left: var(--spacing);
   padding-left: var(--spacing);
 }
+
+@media only screen and (max-width: 768px) {
+  .replies {
+    --spacing: 1rem;
+    margin-left: 0;
+  }
+}

@@ -22,3 +22,9 @@
 .postedText {
   color: var(--clr-neutral-400);
 }
+
+@media only screen and (max-width: 768px) {
+  .header {
+    grid-column: span 2;
+  }
+}
