@@ -1,0 +1,21 @@
+.commentInput {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1rem;
+  align-items: start;
+}
+
+@media only screen and (max-width: 768px) {
+  .commentInput {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+  }
+
+  .userImage {
+    grid-row-start: 2;
+  }
+
+  .commentInput > textarea {
+    grid-column: span 2;
+  }
+}

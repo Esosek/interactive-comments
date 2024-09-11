@@ -18,6 +18,8 @@
   --fw-regular: 400;
   --fw-semibold: 500;
   --fw-bold: 700;
+
+  --br-medium: 0.35rem;
 }
 
 /* Reset */
@@ -35,6 +37,7 @@
 body {
   font-size: var(--fs-base);
   font-weight: var(--fw-regular);
+  color: var(--clr-blue-800);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   background-color: var(--clr-neutral-100);

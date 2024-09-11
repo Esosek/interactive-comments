@@ -1,0 +1,13 @@
+.primaryButton {
+  color: var(--clr-white);
+  background-color: var(--clr-blue-500);
+  font-weight: var(--fw-semibold);
+  min-width: 7.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--br-medium);
+  transition: opacity 100ms ease-out;
+}
+
+.primaryButton:hover {
+  opacity: 0.5;
+}
