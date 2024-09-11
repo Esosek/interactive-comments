@@ -9,6 +9,16 @@
   font-weight: var(--fw-semibold);
 }
 
+.userLabel {
+  color: var(--clr-white);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-semibold);
+  background-color: var(--clr-blue-500);
+  border-radius: 0.15rem;
+  padding: 0.05rem 0.35rem;
+  margin-left: -0.5rem;
+}
+
 .postedText {
   color: var(--clr-neutral-400);
 }
