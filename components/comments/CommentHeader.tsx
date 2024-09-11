@@ -1,7 +1,7 @@
-import { User } from "@/types/user"
+import { User } from '@/types/user'
 
-import styles from "./styles/CommentHeader.module.css"
-import UserImage from "../common/UserImage"
+import styles from './styles/CommentHeader.module.css'
+import UserImage from '../common/UserImage'
 
 type CommentHeaderProps = {
   user: User
@@ -15,8 +15,8 @@ export default function CommentHeader({
   return (
     <div className={styles.header}>
       <UserImage username={user.username} imagePath={user.image.webp} />
-      <p>{user.username}</p>
-      <p>{postedAt}</p>
+      <p className={styles.username}>{user.username}</p>
+      <p className={styles.postedText}>{postedAt}</p>
     </div>
   )
 }

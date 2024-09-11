@@ -3,3 +3,12 @@
   gap: 1rem;
   align-items: center;
 }
+
+.username {
+  color: var(--clr-blue-800);
+  font-weight: var(--fw-semibold);
+}
+
+.postedText {
+  color: var(--clr-neutral-400);
+}

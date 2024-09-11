@@ -18,7 +18,7 @@ export default function Comment({ comment, isReply = false }: CommentProps) {
       <CommentVotes score={comment.score} />
       <CommentHeader user={comment.user} createdAt={comment.createdAt} />
       <CommentButtons isUserOwned={isUserOwned} />
-      <p>{comment.content}</p>
+      <p className={styles.content}>{comment.content}</p>
     </li>
   )
 }

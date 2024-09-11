@@ -1,5 +1,5 @@
 .comment {
-  --spacing: 1.25rem;
+  --spacing: 1rem 1.25rem;
 
   display: grid;
   grid-template-columns: auto 1fr auto;
@@ -12,6 +12,10 @@
   border-radius: 0.4rem;
   max-width: 800px;
   margin-inline: auto;
+}
+
+.content {
+  color: var(--clr-neutral-400);
 }
 
 @media only screen and (max-width: 768px) {
