@@ -1,15 +1,22 @@
 import Image from 'next/image'
 
 import styles from './styles/CommentButtons.module.css'
+
 import iconReply from '@/public/images/icon-reply.svg'
 import iconDelete from '@/public/images/icon-delete.svg'
 import iconEdit from '@/public/images/icon-edit.svg'
 
 type CommentButtonsProps = {
+  onReply?: () => void
+  onDelete?: () => void
+  onEdit?: () => void
   isUserOwned?: boolean
 }
 
 export default function CommentButtons({
+  onReply,
+  onDelete,
+  onEdit,
   isUserOwned = false,
 }: CommentButtonsProps) {
   return (
@@ -17,6 +24,7 @@ export default function CommentButtons({
       {isUserOwned ? (
         <>
           <button
+            onClick={onDelete}
             className={styles.btn}
             style={{ color: 'var(--clr-red-500)' }}
           >
@@ -26,6 +34,7 @@ export default function CommentButtons({
             Delete
           </button>
           <button
+            onClick={onEdit}
             className={styles.btn}
             style={{ color: 'var(--clr-blue-500)' }}
           >
@@ -36,7 +45,11 @@ export default function CommentButtons({
           </button>
         </>
       ) : (
-        <button className={styles.btn} style={{ color: 'var(--clr-blue-500)' }}>
+        <button
+          onClick={onReply}
+          className={styles.btn}
+          style={{ color: 'var(--clr-blue-500)' }}
+        >
           <div className={styles.iconWrapper}>
             <Image src={iconReply.src} alt="reply icon" fill />
           </div>
