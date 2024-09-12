@@ -8,6 +8,7 @@
   transition: opacity 100ms ease-out;
 }
 
-.primaryButton:hover {
+.primaryButton:hover,
+.primaryButton:disabled {
   opacity: 0.5;
 }
