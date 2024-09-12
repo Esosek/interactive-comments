@@ -6,20 +6,31 @@ import Card from '../common/Card'
 import UserImage from '../common/UserImage'
 import BaseTextArea from '../common/BaseTextArea'
 import PrimaryButton from '../common/PrimaryButton'
+import { useCommentStore } from '@/stores/commentStore'
+import { UserComment } from '@/types/userComment'
 
 type CommentInputProps = {
-  replyingTo?: string
+  replyToComment?: UserComment
+  onCommentAdded?: () => void
 }
 
-export default function CommentInput({ replyingTo }: CommentInputProps) {
+export default function CommentInput({
+  replyToComment,
+  onCommentAdded = () => {},
+}: CommentInputProps) {
   const formRef = useRef<HTMLFormElement>(null)
-  const { loggedUser } = useUserStore()
+  const loggedUser = useUserStore((state) => state.loggedUser)
+  const addComment = useCommentStore((state) => state.addComment)
+
   const [isLoading, setIsLoading] = useState(false)
 
-  const buttonLabel = replyingTo ? 'reply' : 'send'
+  const buttonLabel = replyToComment ? 'reply' : 'send'
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    if (!loggedUser) {
+      return
+    }
 
     const target = e.target as typeof e.target & {
       'new-comment-text': { value: string }
@@ -31,8 +42,8 @@ export default function CommentInput({ replyingTo }: CommentInputProps) {
     }
     setIsLoading(true)
 
-    // TODO: Add new UserComment to commentStore
-    console.log('Updating commentStore')
+    addComment(commentText, replyToComment?.id)
+    onCommentAdded()
     formRef.current!.reset()
 
     setIsLoading(false)
@@ -50,8 +61,10 @@ export default function CommentInput({ replyingTo }: CommentInputProps) {
         </div>
         <BaseTextArea
           name="new-comment-text"
-          defaultValue={replyingTo ? `@${replyingTo} ` : undefined}
-          autoFocus={replyingTo !== undefined}
+          defaultValue={
+            replyToComment ? `@${replyToComment.user.username} ` : undefined
+          }
+          autoFocus={replyToComment !== undefined}
         />
         <PrimaryButton disabled={isLoading} type="submit">
           {isLoading ? `${buttonLabel}ing...` : buttonLabel}

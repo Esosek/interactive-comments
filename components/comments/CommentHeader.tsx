@@ -13,7 +13,7 @@ export default function CommentHeader({
   user,
   createdAt: postedAt,
 }: CommentHeaderProps) {
-  const { loggedUser } = useUserStore()
+  const loggedUser = useUserStore((state) => state.loggedUser)
   const isUserOwned = loggedUser?.username === user.username
   return (
     <div className={styles.header}>

@@ -1,7 +1,7 @@
 import { type User } from './user'
 
 export type UserComment = {
-  id: number
+  id: string
   content: string
   createdAt: string
   score: number

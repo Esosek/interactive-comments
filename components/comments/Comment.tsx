@@ -17,13 +17,11 @@ type CommentProps = {
 }
 
 export default function Comment({ comment, isReply = false }: CommentProps) {
-  const { loggedUser } = useUserStore()
+  const loggedUser = useUserStore((state) => state.loggedUser)
   const isUserOwned = loggedUser?.username === comment.user.username
   const [isReplying, setIsReplying] = useState(false)
 
-  function handleReply() {
-    setIsReplying(true)
-  }
+  const handleReply = () => setIsReplying(true)
 
   function handleDelete() {
     // TODO: Implement Comment delete
@@ -57,7 +55,12 @@ export default function Comment({ comment, isReply = false }: CommentProps) {
           </p>
         </div>
       </Card>
-      {isReplying && <CommentInput replyingTo={comment.user.username} />}
+      {isReplying && (
+        <CommentInput
+          replyToComment={comment}
+          onCommentAdded={() => setIsReplying(false)}
+        />
+      )}
       {!isReply && comment.replies && (
         <CommentReplies replies={comment.replies} />
       )}
