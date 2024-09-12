@@ -30,6 +30,7 @@ export const useCommentStore = create<CommentStoreType>((set) => {
   // TODO: Implement userCommentStore methods
   return {
     comments: commentData.comments,
+    // TODO: Fix replies to replies rendering
     addComment: (commentText, parentCommentId) => {
       set((state) => {
         const createdComment = createComment(commentText)
