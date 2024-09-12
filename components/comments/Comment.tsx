@@ -8,6 +8,8 @@ import CommentButtons from './CommentButtons'
 import CommentHeader from './CommentHeader'
 import CommentVotes from './CommentVotes'
 import CommentReplies from './CommentReplies'
+import CommentInput from './CommentInput'
+import { useState } from 'react'
 
 type CommentProps = {
   comment: UserComment
@@ -17,10 +19,10 @@ type CommentProps = {
 export default function Comment({ comment, isReply = false }: CommentProps) {
   const { loggedUser } = useUserStore()
   const isUserOwned = loggedUser?.username === comment.user.username
+  const [isReplying, setIsReplying] = useState(false)
 
   function handleReply() {
-    // TODO: Implement Comment reply
-    console.log('Replying to comment ' + comment.id)
+    setIsReplying(true)
   }
 
   function handleDelete() {
@@ -55,6 +57,7 @@ export default function Comment({ comment, isReply = false }: CommentProps) {
           </p>
         </div>
       </Card>
+      {isReplying && <CommentInput replyingTo={comment.user.username} />}
       {!isReply && comment.replies && (
         <CommentReplies replies={comment.replies} />
       )}

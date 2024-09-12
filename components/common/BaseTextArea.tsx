@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import styles from './styles/BaseTextArea.module.css'
 
 type BaseTextAreaProps = {
@@ -11,8 +12,19 @@ export default function BaseTextArea({
   defaultValue,
   autoFocus = false,
 }: BaseTextAreaProps) {
+  const textAreaRef = useRef<HTMLTextAreaElement>(null)
+
+  useEffect(() => {
+    if (autoFocus && defaultValue) {
+      textAreaRef.current!.setSelectionRange(
+        defaultValue.length,
+        defaultValue.length
+      )
+    }
+  }, [autoFocus, defaultValue])
   return (
     <textarea
+      ref={textAreaRef}
       className={styles.textArea}
       name={name}
       rows={3}

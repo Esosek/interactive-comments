@@ -50,7 +50,8 @@ export default function CommentInput({ replyingTo }: CommentInputProps) {
         </div>
         <BaseTextArea
           name="new-comment-text"
-          defaultValue={replyingTo ? `@${replyingTo}` : undefined}
+          defaultValue={replyingTo ? `@${replyingTo} ` : undefined}
+          autoFocus={replyingTo !== undefined}
         />
         <PrimaryButton disabled={isLoading} type="submit">
           {isLoading ? `${buttonLabel}ing...` : buttonLabel}
