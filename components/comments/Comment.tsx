@@ -11,6 +11,7 @@ import CommentReplies from './CommentReplies'
 import CommentInput from './CommentInput'
 import { useState } from 'react'
 import { useCommentStore } from '@/stores/commentStore'
+import CommentEdit from './CommentEdit'
 
 type CommentProps = {
   comment: UserComment
@@ -24,16 +25,13 @@ export default function Comment({ comment, isReply = false }: CommentProps) {
   const deleteComment = useCommentStore((state) => state.deleteComment)
 
   const [isReplying, setIsReplying] = useState(false)
+  const [isEditing, setIsEditing] = useState(false)
 
   const isUserOwned = loggedUser?.username === comment.user.username
 
   const handleReply = () => setIsReplying(true)
   const handleDelete = () => deleteComment(comment.id)
-
-  function handleEdit() {
-    // TODO: Implement Comment edit
-    console.log('Editing comment ' + comment.id)
-  }
+  const handleEdit = () => setIsEditing(true)
 
   return (
     <li>
@@ -47,14 +45,21 @@ export default function Comment({ comment, isReply = false }: CommentProps) {
             onDelete={handleDelete}
             onEdit={handleEdit}
           />
-          <p className={styles.content}>
-            {comment.replyingTo && (
-              <span className={styles.replyToUsername}>
-                @{comment.replyingTo.username}{' '}
-              </span>
-            )}
-            {comment.content}
-          </p>
+          {isEditing ? (
+            <CommentEdit
+              comment={comment}
+              onUpdate={() => setIsEditing(false)}
+            />
+          ) : (
+            <p className={styles.content}>
+              {comment.replyingTo && (
+                <span className={styles.replyToUsername}>
+                  @{comment.replyingTo.username}{' '}
+                </span>
+              )}
+              {comment.content}
+            </p>
+          )}
         </div>
       </Card>
       {isReplying && (

@@ -56,8 +56,13 @@ export const useCommentStore = create<CommentStoreType>((set, get) => {
         comments: state.comments.filter((c) => c.id !== commentId),
       }))
     },
-    // TODO: Implement editComment
-    editComment: (commentId, updatedCommentText) => {},
+    editComment: (commentId, updatedCommentText) => {
+      set((state) => ({
+        comments: state.comments.map((c) =>
+          c.id === commentId ? { ...c, content: updatedCommentText } : c
+        ),
+      }))
+    },
     upvoteComment: (commentId) => {
       set((state) => ({
         comments: state.comments.map((c) =>

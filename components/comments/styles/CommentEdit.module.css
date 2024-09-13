@@ -1,0 +1,9 @@
+.editForm {
+  grid-column: span 2;
+  display: grid;
+  gap: 1rem;
+}
+
+.editForm > button {
+  justify-self: end;
+}

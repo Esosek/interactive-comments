@@ -2,13 +2,13 @@ import { useEffect, useRef } from 'react'
 import styles from './styles/BaseTextArea.module.css'
 
 type BaseTextAreaProps = {
-  name: string
+  name?: string
   defaultValue?: string
   autoFocus?: boolean
 }
 
 export default function BaseTextArea({
-  name,
+  name = '',
   defaultValue,
   autoFocus = false,
 }: BaseTextAreaProps) {
