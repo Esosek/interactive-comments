@@ -42,7 +42,7 @@ export default function CommentInput({
     }
     setIsLoading(true)
 
-    addComment(commentText, replyToComment?.id)
+    addComment(commentText, replyToComment?.parentId ?? replyToComment?.id)
     onCommentAdded()
     formRef.current!.reset()
 
