@@ -17,7 +17,8 @@ type UserStoreType = {
 }
 
 export const useUserStore = create<UserStoreType>((set) => ({
-  // TODO: Implement userSlice methods
+  // TODO: Implement login method
+  // TODO: Implement logout method
   loggedUser: initialUser,
   login: (user: User) => {},
   logout: () => {},

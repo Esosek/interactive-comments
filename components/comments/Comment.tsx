@@ -18,14 +18,10 @@ type CommentProps = {
   isReply?: boolean
 }
 
-export default function Comment({
-  comment,
-  parentCommentId,
-  isReply = false,
-}: CommentProps) {
+export default function Comment({ comment, isReply = false }: CommentProps) {
   const loggedUser = useUserStore((state) => state.loggedUser)
-  const deleteComment = useCommentStore((state) => state.deleteComment)
   const replies = useCommentStore((state) => state.computed.replies(comment.id))
+  const deleteComment = useCommentStore((state) => state.deleteComment)
 
   const [isReplying, setIsReplying] = useState(false)
 
@@ -43,7 +39,7 @@ export default function Comment({
     <li>
       <Card>
         <div className={styles.comment}>
-          <CommentVotes score={comment.score} />
+          <CommentVotes commentId={comment.id} />
           <CommentHeader user={comment.user} createdAt={comment.createdAt} />
           <CommentButtons
             isUserOwned={isUserOwned}

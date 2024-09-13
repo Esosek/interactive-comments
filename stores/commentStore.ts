@@ -10,6 +10,7 @@ type CommentStoreType = {
   computed: {
     parentComments: () => UserComment[]
     replies: (parentId: string) => UserComment[]
+    score: (commentId: string) => number
   }
   addComment: (commentText: string, parentCommentId?: string) => void
   deleteComment: (commentId: string) => void
@@ -37,11 +38,12 @@ export const useCommentStore = create<CommentStoreType>((set, get) => {
 
   return {
     comments: commentData.comments,
-    // TODO: Fix replies to replies rendering
     computed: {
       parentComments: () => get().comments.filter((c) => !c.parentId),
       replies: (parentId) =>
         get().comments.filter((c) => c.parentId === parentId),
+      score: (commentId) =>
+        get().comments.find((c) => c.id === commentId)?.score ?? 0,
     },
     addComment: (commentText, parentCommentId) => {
       set((state) => {
@@ -56,9 +58,19 @@ export const useCommentStore = create<CommentStoreType>((set, get) => {
     },
     // TODO: Implement editComment
     editComment: (commentId, updatedCommentText) => {},
-    // TODO: Implement upvoteComment
-    upvoteComment: (commentId) => {},
-    // TODO: Implement downVoteComment
-    downvoteComment: (commentId) => {},
+    upvoteComment: (commentId) => {
+      set((state) => ({
+        comments: state.comments.map((c) =>
+          c.id === commentId ? { ...c, score: c.score + 1 } : c
+        ),
+      }))
+    },
+    downvoteComment: (commentId) => {
+      set((state) => ({
+        comments: state.comments.map((c) =>
+          c.id === commentId ? { ...c, score: c.score - 1 } : c
+        ),
+      }))
+    },
   }
 })

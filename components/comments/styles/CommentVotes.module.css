@@ -12,9 +12,17 @@
   min-width: 2.25rem;
 }
 
-.count {
+.positiveCount,
+.negativeCount {
   font-weight: var(--fw-semibold);
+}
+
+.positiveCount {
   color: var(--clr-blue-500);
+}
+
+.negativeCount {
+  color: var(--clr-red-500);
 }
 
 .control > svg {

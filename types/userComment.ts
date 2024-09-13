@@ -4,7 +4,7 @@ export type UserComment = {
   id: string
   content: string
   createdAt: string
-  score: number
+  score: number // TODO: Extract score to it's own voteStore
   user: User
   parentId?: string
   replyingTo?: User
