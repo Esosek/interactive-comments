@@ -4,13 +4,22 @@ import Comment from './Comment'
 
 type CommentRepliesProps = {
   replies: UserComment[]
+  parentCommentId?: string
 }
 
-export default function CommentReplies({ replies }: CommentRepliesProps) {
+export default function CommentReplies({
+  replies,
+  parentCommentId,
+}: CommentRepliesProps) {
   return (
     <ul className={styles.replies}>
       {replies.map((reply) => (
-        <Comment key={reply.id} comment={reply} isReply />
+        <Comment
+          key={reply.id}
+          comment={reply}
+          parentCommentId={parentCommentId}
+          isReply
+        />
       ))}
     </ul>
   )

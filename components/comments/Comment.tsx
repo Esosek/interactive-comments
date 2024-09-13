@@ -10,23 +10,26 @@ import CommentVotes from './CommentVotes'
 import CommentReplies from './CommentReplies'
 import CommentInput from './CommentInput'
 import { useState } from 'react'
+import { useCommentStore } from '@/stores/commentStore'
 
 type CommentProps = {
   comment: UserComment
+  parentCommentId?: string
   isReply?: boolean
 }
 
-export default function Comment({ comment, isReply = false }: CommentProps) {
+export default function Comment({
+  comment,
+  parentCommentId,
+  isReply = false,
+}: CommentProps) {
   const loggedUser = useUserStore((state) => state.loggedUser)
+  const deleteComment = useCommentStore((state) => state.deleteComment)
   const isUserOwned = loggedUser?.username === comment.user.username
   const [isReplying, setIsReplying] = useState(false)
 
   const handleReply = () => setIsReplying(true)
-
-  function handleDelete() {
-    // TODO: Implement Comment delete
-    console.log('Deleting comment ' + comment.id)
-  }
+  const handleDelete = () => deleteComment(comment.id, parentCommentId)
 
   function handleEdit() {
     // TODO: Implement Comment edit
@@ -62,7 +65,10 @@ export default function Comment({ comment, isReply = false }: CommentProps) {
         />
       )}
       {!isReply && comment.replies && (
-        <CommentReplies replies={comment.replies} />
+        <CommentReplies
+          replies={comment.replies}
+          parentCommentId={comment.id}
+        />
       )}
     </li>
   )
