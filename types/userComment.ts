@@ -6,6 +6,6 @@ export type UserComment = {
   createdAt: string
   score: number
   user: User
-  replyingTo?: string // TODO: Change to User, needs updating the data.json
-  replies?: UserComment[]
+  parentId?: string
+  replyingTo?: User
 }

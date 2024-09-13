@@ -5,7 +5,7 @@ import CommentInput from '@/components/comments/CommentInput'
 import { useCommentStore } from '@/stores/commentStore'
 
 export default function Home() {
-  const comments = useCommentStore((state) => state.comments)
+  const comments = useCommentStore((state) => state.computed.parentComments())
   return (
     <main>
       <ul>

@@ -25,11 +25,14 @@ export default function Comment({
 }: CommentProps) {
   const loggedUser = useUserStore((state) => state.loggedUser)
   const deleteComment = useCommentStore((state) => state.deleteComment)
-  const isUserOwned = loggedUser?.username === comment.user.username
+  const replies = useCommentStore((state) => state.computed.replies(comment.id))
+
   const [isReplying, setIsReplying] = useState(false)
 
+  const isUserOwned = loggedUser?.username === comment.user.username
+
   const handleReply = () => setIsReplying(true)
-  const handleDelete = () => deleteComment(comment.id, parentCommentId)
+  const handleDelete = () => deleteComment(comment.id)
 
   function handleEdit() {
     // TODO: Implement Comment edit
@@ -51,7 +54,7 @@ export default function Comment({
           <p className={styles.content}>
             {comment.replyingTo && (
               <span className={styles.replyToUsername}>
-                @{comment.replyingTo}{' '}
+                @{comment.replyingTo.username}{' '}
               </span>
             )}
             {comment.content}
@@ -64,11 +67,8 @@ export default function Comment({
           onCommentAdded={() => setIsReplying(false)}
         />
       )}
-      {!isReply && comment.replies && (
-        <CommentReplies
-          replies={comment.replies}
-          parentCommentId={comment.id}
-        />
+      {!isReply && replies && (
+        <CommentReplies replies={replies} parentCommentId={comment.id} />
       )}
     </li>
   )
