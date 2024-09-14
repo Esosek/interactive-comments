@@ -57,13 +57,13 @@ export default function CommentInput({
           {loggedUser && <UserImage user={loggedUser} />}
         </div>
         <BaseTextArea
-          name="new-comment-text"
+          name='new-comment-text'
           defaultValue={
             replyToComment ? `@${replyToComment.user.username} ` : undefined
           }
           autoFocus={replyToComment !== undefined}
         />
-        <PrimaryButton disabled={isLoading} type="submit">
+        <PrimaryButton disabled={isLoading} type='submit'>
           {isLoading ? `${buttonLabel}ing...` : buttonLabel}
         </PrimaryButton>
       </form>

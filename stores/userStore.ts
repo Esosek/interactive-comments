@@ -16,7 +16,7 @@ type UserStoreType = {
   logout: () => void
 }
 
-export const useUserStore = create<UserStoreType>((set) => ({
+export const useUserStore = create<UserStoreType>()((set) => ({
   // TODO: Implement login method
   // TODO: Implement logout method
   loggedUser: initialUser,

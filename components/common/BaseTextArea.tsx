@@ -28,7 +28,7 @@ export default function BaseTextArea({
       className={styles.textArea}
       name={name}
       rows={3}
-      placeholder="Add a comment..."
+      placeholder='Add a comment...'
       defaultValue={defaultValue}
       autoFocus={autoFocus}
     />

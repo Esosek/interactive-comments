@@ -29,7 +29,7 @@ export default function CommentButtons({
             style={{ color: 'var(--clr-red-500)' }}
           >
             <div className={styles.iconWrapper}>
-              <Image src={iconDelete.src} alt="delete icon" fill />
+              <Image src={iconDelete.src} alt='delete icon' fill />
             </div>
             Delete
           </button>
@@ -39,7 +39,7 @@ export default function CommentButtons({
             style={{ color: 'var(--clr-blue-500)' }}
           >
             <div className={styles.iconWrapper}>
-              <Image src={iconEdit.src} alt="edit icon" fill />
+              <Image src={iconEdit.src} alt='edit icon' fill />
             </div>
             Edit
           </button>
@@ -51,7 +51,7 @@ export default function CommentButtons({
           style={{ color: 'var(--clr-blue-500)' }}
         >
           <div className={styles.iconWrapper}>
-            <Image src={iconReply.src} alt="reply icon" fill />
+            <Image src={iconReply.src} alt='reply icon' fill />
           </div>
           Reply
         </button>

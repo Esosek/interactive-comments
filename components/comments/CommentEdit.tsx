@@ -34,8 +34,8 @@ export default function CommentEdit({
   }
   return (
     <form onSubmit={handleSubmit} className={styles.editForm}>
-      <BaseTextArea defaultValue={defaultValue} name="edit-text" />
-      <PrimaryButton type="submit">update</PrimaryButton>
+      <BaseTextArea defaultValue={defaultValue} name='edit-text' />
+      <PrimaryButton type='submit'>update</PrimaryButton>
     </form>
   )
 }

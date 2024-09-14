@@ -19,7 +19,7 @@ type CommentStoreType = {
   downvoteComment: (commentId: string) => void
 }
 
-export const useCommentStore = create<CommentStoreType>((set, get) => {
+export const useCommentStore = create<CommentStoreType>()((set, get) => {
   const loggedUser = useUserStore.getState().loggedUser
 
   function createComment(
