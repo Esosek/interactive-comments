@@ -37,9 +37,6 @@ export default function CommentInput({
     }
     const commentText = target['new-comment-text'].value
 
-    if (commentText.trim().length === 0) {
-      return
-    }
     setIsLoading(true)
 
     addComment(commentText, replyToComment?.parentId ?? replyToComment?.id)

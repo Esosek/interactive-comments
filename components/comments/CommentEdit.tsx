@@ -9,14 +9,17 @@ import PrimaryButton from '../common/PrimaryButton'
 
 type CommentEditProps = {
   comment: UserComment
-  onUpdate?: () => void
+  onSave?: () => void
 }
 
 export default function CommentEdit({
   comment,
-  onUpdate = () => {},
+  onSave = () => {},
 }: CommentEditProps) {
   const editComment = useCommentStore((state) => state.editComment)
+  const defaultValue = comment.replyingTo
+    ? `@${comment.replyingTo} ${comment.content}`
+    : comment.content
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -26,16 +29,12 @@ export default function CommentEdit({
     }
     const updatedText = target['edit-text'].value
 
-    if (updatedText.trim().length === 0) {
-      return
-    }
-
     editComment(comment.id, updatedText)
-    onUpdate()
+    onSave()
   }
   return (
     <form onSubmit={handleSubmit} className={styles.editForm}>
-      <BaseTextArea defaultValue={comment.content} name="edit-text" />
+      <BaseTextArea defaultValue={defaultValue} name="edit-text" />
       <PrimaryButton type="submit">update</PrimaryButton>
     </form>
   )

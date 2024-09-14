@@ -46,15 +46,12 @@ export default function Comment({ comment, isReply = false }: CommentProps) {
             onEdit={handleEdit}
           />
           {isEditing ? (
-            <CommentEdit
-              comment={comment}
-              onUpdate={() => setIsEditing(false)}
-            />
+            <CommentEdit comment={comment} onSave={() => setIsEditing(false)} />
           ) : (
             <p className={styles.content}>
               {comment.replyingTo && (
                 <span className={styles.replyToUsername}>
-                  @{comment.replyingTo.username}{' '}
+                  @{comment.replyingTo}{' '}
                 </span>
               )}
               {comment.content}

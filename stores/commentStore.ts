@@ -24,7 +24,8 @@ export const useCommentStore = create<CommentStoreType>((set, get) => {
 
   function createComment(
     commentText: string,
-    commentParentId?: string
+    commentParentId?: string,
+    replyingTo?: string
   ): UserComment {
     return {
       id: nanoid(),
@@ -33,7 +34,21 @@ export const useCommentStore = create<CommentStoreType>((set, get) => {
       createdAt: 'now',
       score: 0,
       user: loggedUser!,
+      replyingTo: replyingTo,
     }
+  }
+
+  function splitReplyText(commentText: string) {
+    const regex = /@(\w+)(?:\s+(.*))?/
+    const match = commentText.match(regex)
+
+    if (match) {
+      const replyToUsername = match[1]
+      const content = match[2]?.trim()
+
+      return [replyToUsername, content]
+    }
+    return [undefined, commentText]
   }
 
   return {
@@ -46,8 +61,17 @@ export const useCommentStore = create<CommentStoreType>((set, get) => {
         get().comments.find((c) => c.id === commentId)?.score ?? 0,
     },
     addComment: (commentText, parentCommentId) => {
+      const [replyToUsername, content] = splitReplyText(commentText)
+
+      if (!content) {
+        return
+      }
       set((state) => {
-        const createdComment = createComment(commentText, parentCommentId)
+        const createdComment = createComment(
+          content!,
+          parentCommentId,
+          replyToUsername
+        )
         return { comments: [...state.comments, createdComment] }
       })
     },
@@ -57,9 +81,15 @@ export const useCommentStore = create<CommentStoreType>((set, get) => {
       }))
     },
     editComment: (commentId, updatedCommentText) => {
+      const [replyToUsername, content] = splitReplyText(updatedCommentText)
+      if (!content) {
+        return
+      }
       set((state) => ({
         comments: state.comments.map((c) =>
-          c.id === commentId ? { ...c, content: updatedCommentText } : c
+          c.id === commentId
+            ? { ...c, content: content!, replyingTo: replyToUsername }
+            : c
         ),
       }))
     },
