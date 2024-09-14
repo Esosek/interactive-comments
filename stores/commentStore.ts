@@ -27,11 +27,14 @@ export const useCommentStore = create<CommentStoreType>((set, get) => {
     commentParentId?: string,
     replyingTo?: string
   ): UserComment {
+    const now = Date.now()
+    console.log(now)
+
     return {
       id: nanoid(),
       parentId: commentParentId,
       content: commentText,
-      createdAt: 'now',
+      createdAt: now,
       score: 0,
       user: loggedUser!,
       replyingTo: replyingTo,

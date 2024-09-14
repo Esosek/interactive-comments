@@ -38,7 +38,7 @@ export default function Comment({ comment, isReply = false }: CommentProps) {
       <Card>
         <div className={styles.comment}>
           <CommentVotes commentId={comment.id} />
-          <CommentHeader user={comment.user} createdAt={comment.createdAt} />
+          <CommentHeader user={comment.user} postedAt={comment.createdAt} />
           <CommentButtons
             isUserOwned={isUserOwned}
             onReply={handleReply}
