@@ -10,13 +10,10 @@ type CommentStoreType = {
   computed: {
     parentComments: () => UserComment[]
     replies: (parentId: string) => UserComment[]
-    score: (commentId: string) => number
   }
   addComment: (commentText: string, parentCommentId?: string) => void
   deleteComment: (commentId: string) => void
   editComment: (commentId: string, updatedText: string) => void
-  upvoteComment: (commentId: string) => void
-  downvoteComment: (commentId: string) => void
 }
 
 export const useCommentStore = create<CommentStoreType>()((set, get) => {
@@ -35,7 +32,6 @@ export const useCommentStore = create<CommentStoreType>()((set, get) => {
       parentId: commentParentId,
       content: commentText,
       createdAt: now,
-      score: 0,
       user: loggedUser!,
       replyingTo: replyingTo,
     }
@@ -60,8 +56,6 @@ export const useCommentStore = create<CommentStoreType>()((set, get) => {
       parentComments: () => get().comments.filter((c) => !c.parentId),
       replies: (parentId) =>
         get().comments.filter((c) => c.parentId === parentId),
-      score: (commentId) =>
-        get().comments.find((c) => c.id === commentId)?.score ?? 0,
     },
     addComment: (commentText, parentCommentId) => {
       const [replyToUsername, content] = splitReplyText(commentText)
@@ -93,20 +87,6 @@ export const useCommentStore = create<CommentStoreType>()((set, get) => {
           c.id === commentId
             ? { ...c, content: content!, replyingTo: replyToUsername }
             : c
-        ),
-      }))
-    },
-    upvoteComment: (commentId) => {
-      set((state) => ({
-        comments: state.comments.map((c) =>
-          c.id === commentId ? { ...c, score: c.score + 1 } : c
-        ),
-      }))
-    },
-    downvoteComment: (commentId) => {
-      set((state) => ({
-        comments: state.comments.map((c) =>
-          c.id === commentId ? { ...c, score: c.score - 1 } : c
         ),
       }))
     },

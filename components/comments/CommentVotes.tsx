@@ -1,19 +1,18 @@
-'use client'
-import { useCommentStore } from '@/stores/commentStore'
 import styles from './styles/CommentVotes.module.css'
+import { useScoreStore } from '@/stores/scoreStore'
 
 type CommentVotesProps = {
   commentId: string
 }
 
 export default function CommentVotes({ commentId }: CommentVotesProps) {
-  const incrementVote = useCommentStore((state) => state.upvoteComment)
-  const decrementVote = useCommentStore((state) => state.downvoteComment)
-  const score = useCommentStore((state) => state.computed.score(commentId))
+  const incrementVote = useScoreStore((state) => state.setScore)
+  const decrementVote = useScoreStore((state) => state.setScore)
+  const score = useScoreStore((state) => state.computed.commentScore(commentId))
   return (
     <div className={styles.card}>
       <button
-        onClick={() => incrementVote(commentId)}
+        onClick={() => incrementVote(commentId, true)}
         className={styles.control}
       >
         <svg width='11' height='11' xmlns='http://www.w3.org/2000/svg'>
@@ -24,7 +23,7 @@ export default function CommentVotes({ commentId }: CommentVotesProps) {
         {score}
       </p>
       <button
-        onClick={() => decrementVote(commentId)}
+        onClick={() => decrementVote(commentId, false)}
         className={styles.control}
       >
         <svg
