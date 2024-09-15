@@ -1,14 +1,14 @@
 import styles from './styles/CommentVotes.module.css'
-import { useScoreStore } from '@/stores/scoreStore'
+import { useVoteStore } from '@/stores/voteStore'
 
 type CommentVotesProps = {
   commentId: string
 }
 
 export default function CommentVotes({ commentId }: CommentVotesProps) {
-  const incrementVote = useScoreStore((state) => state.setScore)
-  const decrementVote = useScoreStore((state) => state.setScore)
-  const score = useScoreStore((state) => state.computed.commentScore(commentId))
+  const incrementVote = useVoteStore((state) => state.setScore)
+  const decrementVote = useVoteStore((state) => state.setScore)
+  const score = useVoteStore((state) => state.computed.commentScore(commentId))
   return (
     <div className={styles.card}>
       <button
