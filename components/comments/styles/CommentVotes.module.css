@@ -35,6 +35,10 @@
   fill: var(--clr-blue-800);
 }
 
+.control:disabled > svg {
+  fill: var(--clr-neutral-200);
+}
+
 @media only screen and (max-width: 768px) {
   .card {
     grid-template-columns: repeat(3, 1fr);

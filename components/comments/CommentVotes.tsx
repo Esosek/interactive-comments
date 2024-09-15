@@ -9,10 +9,15 @@ export default function CommentVotes({ commentId }: CommentVotesProps) {
   const incrementVote = useVoteStore((state) => state.setScore)
   const decrementVote = useVoteStore((state) => state.setScore)
   const score = useVoteStore((state) => state.computed.commentScore(commentId))
+  const userVote = useVoteStore((state) =>
+    state.computed.userCommentVote(commentId)
+  )
+
   return (
     <div className={styles.card}>
       <button
         onClick={() => incrementVote(commentId, true)}
+        disabled={userVote}
         className={styles.control}
       >
         <svg width='11' height='11' xmlns='http://www.w3.org/2000/svg'>
@@ -24,6 +29,7 @@ export default function CommentVotes({ commentId }: CommentVotesProps) {
       </p>
       <button
         onClick={() => decrementVote(commentId, false)}
+        disabled={userVote === false}
         className={styles.control}
       >
         <svg
