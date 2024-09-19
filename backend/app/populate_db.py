@@ -59,8 +59,8 @@ def populate_db():
         Vote(vote_type=False, comment_id="1", user_id="4"),
         Vote(vote_type=True, comment_id="2", user_id="1"),
         Vote(vote_type=True, comment_id="2", user_id="4"),
-        Vote(vote_type=False, comment_id="3", user_id="1"),
         Vote(vote_type=False, comment_id="2", user_id="2"),
+        Vote(vote_type=False, comment_id="3", user_id="1"),
     ]
 
     db.session.add_all(votes)
