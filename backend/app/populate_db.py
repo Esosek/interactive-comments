@@ -3,43 +3,51 @@ from .models import Comment, User
 
 
 def populate_db():
-    user_01 = User(username="amyrobson", image="/images/avatars/image-amyrobson.webp")
-    user_02 = User(username="maxblagun", image="/images/avatars/image-maxblagun.webp")
-    user_03 = User(
-        username="ramsesmiron", image="/images/avatars/image-ramsesmiron.webp"
-    )
+    users = [
+        User(username="amyrobson", image="/images/avatars/image-amyrobson.webp"),
+        User(username="maxblagun", image="/images/avatars/image-maxblagun.webp"),
+        User(
+            username="ramsesmiron",
+            image="/images/avatars/image-ramsesmiron.webp",
+        ),
+        User(username="juliusomo", image="/images/avatars/image-juliusomo.webp"),
+    ]
 
-    db.session.add(user_01)
-    db.session.add(user_02)
-    db.session.add(user_03)
+    db.session.add_all(users)
     db.session.commit()
 
-    comment_01 = Comment(
-        content="Impressive! Though it seems the drag feature could be improved. But overall it looks incredible. You've nailed the design and the responsiveness at various breakpoints works really well.",
-        createdAt=1723535799,
-        score=12,
-        user_id=user_01.id,
-    )
+    parent_comments = [
+        Comment(
+            content="Impressive! Though it seems the drag feature could be improved. But overall it looks incredible. You've nailed the design and the responsiveness at various breakpoints works really well.",
+            createdAt=1723535799,
+            user_id=users[0].id,
+        ),
+        Comment(
+            content="Woah, your project looks awesome! How long have you been coding for? I'm still new, but think I want to dive into React as well soon. Perhaps you can give me an insight on where I can learn React? Thanks!",
+            createdAt=1725090999,
+            user_id=users[1].id,
+        ),
+    ]
 
-    comment_02 = Comment(
-        content="Woah, your project looks awesome! How long have you been coding for? I'm still new, but think I want to dive into React as well soon. Perhaps you can give me an insight on where I can learn React? Thanks!",
-        createdAt=1725090999,
-        score=5,
-        user_id=user_02.id,
-    )
-
-    db.session.add(comment_01)
-    db.session.add(comment_02)
+    db.session.add_all(parent_comments)
     db.session.commit()
 
-    comment_03 = Comment(
-        content="If you're still new, I'd recommend focusing on the fundamentals of HTML, CSS, and JS before considering React. It's very tempting to jump ahead but lay a solid foundation first.",
-        createdAt=1725609436,
-        score=4,
-        user_id=user_03.id,
-        replying_to="maxblagun",
-        parent_id=comment_02.id,
-    )
+    reply_comments = [
+        Comment(
+            content="If you're still new, I'd recommend focusing on the fundamentals of HTML, CSS, and JS before considering React. It's very tempting to jump ahead but lay a solid foundation first.",
+            createdAt=1725609436,
+            user_id=users[2].id,
+            replying_to="maxblagun",
+            parent_id=parent_comments[1].id,
+        ),
+        Comment(
+            content="I couldn't agree more with this. Everything moves so fast and it always seems like everyone knows the newest library/framework. But the fundamentals are what stay constant.",
+            createdAt=1726124249,
+            user_id=users[3].id,
+            replying_to="ramsesmiron",
+            parent_id=parent_comments[1].id,
+        ),
+    ]
 
-    db.session.add(comment_03)
+    db.session.add_all(reply_comments)
     db.session.commit()
