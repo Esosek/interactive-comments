@@ -32,7 +32,7 @@ async function sendRequest(query: string) {
     }
 
     const response = await fetch(
-      process.env.API_ENDPOINT ?? 'http://127.0.0.1:5000/graphql',
+      process.env.NEXT_PUBLIC_API_ENDPOINT ?? 'http://127.0.0.1:5000/graphql',
       options
     )
 

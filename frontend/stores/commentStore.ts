@@ -7,6 +7,8 @@ import { getComments } from '@/utils/apiQuery'
 
 type CommentStoreType = {
   comments: UserComment[]
+  isLoading: boolean
+  error: string | undefined
   computed: {
     parentComments: () => UserComment[]
     replies: (parentId: string) => UserComment[]
@@ -52,6 +54,8 @@ export const useCommentStore = create<CommentStoreType>()((set, get) => {
 
   return {
     comments: [],
+    isLoading: true,
+    error: undefined,
     computed: {
       parentComments: () => get().comments.filter((c) => !c.parentId),
       replies: (parentId) =>
@@ -59,9 +63,12 @@ export const useCommentStore = create<CommentStoreType>()((set, get) => {
     },
     getComments: async () => {
       const { data, error } = await getComments()
-      console.log(error)
-
-      set((state) => ({ ...state, comments: data?.comments ?? [] }))
+      set((state) => ({
+        ...state,
+        isLoading: false,
+        error: error,
+        comments: data?.comments ?? [],
+      }))
     },
     addComment: (commentText, parentCommentId) => {
       const [replyToUsername, content] = splitReplyText(commentText)
