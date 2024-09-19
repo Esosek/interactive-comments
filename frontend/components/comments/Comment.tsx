@@ -27,7 +27,7 @@ export default function Comment({ comment, isReply = false }: CommentProps) {
   const [isReplying, setIsReplying] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
 
-  const isUserOwned = loggedUser?.username === comment.user.username
+  const isUserOwned = loggedUser?.id === comment.user.id
 
   const handleReply = () => setIsReplying(true)
   const handleDelete = () => deleteComment(comment.id)

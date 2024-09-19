@@ -3,6 +3,7 @@ import { create } from 'zustand'
 import { User } from '@/types/user'
 
 const initialUser = {
+  id: '4',
   image: '/images/avatars/image-juliusomo.webp',
   username: 'juliusomo',
 }

@@ -11,7 +11,7 @@ type CommentHeaderProps = {
 
 export default function CommentHeader({ user, postedAt }: CommentHeaderProps) {
   const loggedUser = useUserStore((state) => state.loggedUser)
-  const isUserOwned = loggedUser?.username === user.username
+  const isUserOwned = loggedUser?.id === user.id
 
   function getTimeAgo() {
     const now = Date.now()
