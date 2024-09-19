@@ -14,6 +14,10 @@ def create_app():
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.init_app(app)
 
+    @app.route("/")
+    def home():
+        return app.redirect("/graphql")
+
     with app.app_context():
         from app.schema import schema
         from .models import Comment
