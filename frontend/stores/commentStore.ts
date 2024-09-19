@@ -11,6 +11,7 @@ type CommentStoreType = {
     parentComments: () => UserComment[]
     replies: (parentId: string) => UserComment[]
   }
+  loadComments: () => void
   addComment: (commentText: string, parentCommentId?: string) => void
   deleteComment: (commentId: string) => void
   editComment: (commentId: string, updatedText: string) => void
@@ -56,6 +57,9 @@ export const useCommentStore = create<CommentStoreType>()((set, get) => {
       parentComments: () => get().comments.filter((c) => !c.parentId),
       replies: (parentId) =>
         get().comments.filter((c) => c.parentId === parentId),
+    },
+    loadComments: async () => {
+      //TODO: Fetch commentData from backend
     },
     addComment: (commentText, parentCommentId) => {
       const [replyToUsername, content] = splitReplyText(commentText)
