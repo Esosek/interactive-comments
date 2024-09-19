@@ -15,10 +15,11 @@ export default function UserImage({ user, sizeInRem = 2 }: UserImageProps) {
       style={{ height: `${sizeInRem}rem`, width: `${sizeInRem}rem` }}
     >
       <Image
-        src={user.image.webp}
+        src={user.image}
         alt={`Avatar of ${user.username}`}
         fill
         sizes={`${sizeInRem}rem`}
+        priority
       />
     </div>
   )

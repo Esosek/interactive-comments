@@ -1,9 +1,9 @@
 import { create } from 'zustand'
 import { nanoid } from 'nanoid'
 
-import commentData from 'data.json'
 import { type UserComment } from '@/types/userComment'
 import { useUserStore } from './userStore'
+import { getComments } from '@/utils/apiQuery'
 
 type CommentStoreType = {
   comments: UserComment[]
@@ -11,7 +11,7 @@ type CommentStoreType = {
     parentComments: () => UserComment[]
     replies: (parentId: string) => UserComment[]
   }
-  loadComments: () => void
+  getComments: () => void
   addComment: (commentText: string, parentCommentId?: string) => void
   deleteComment: (commentId: string) => void
   editComment: (commentId: string, updatedText: string) => void
@@ -26,7 +26,6 @@ export const useCommentStore = create<CommentStoreType>()((set, get) => {
     replyingTo?: string
   ): UserComment {
     const now = Date.now()
-    console.log(now)
 
     return {
       id: nanoid(),
@@ -52,14 +51,17 @@ export const useCommentStore = create<CommentStoreType>()((set, get) => {
   }
 
   return {
-    comments: commentData.comments,
+    comments: [],
     computed: {
       parentComments: () => get().comments.filter((c) => !c.parentId),
       replies: (parentId) =>
         get().comments.filter((c) => c.parentId === parentId),
     },
-    loadComments: async () => {
-      //TODO: Fetch commentData from backend
+    getComments: async () => {
+      const { data, error } = await getComments()
+      console.log(error)
+
+      set((state) => ({ ...state, comments: data?.comments ?? [] }))
     },
     addComment: (commentText, parentCommentId) => {
       const [replyToUsername, content] = splitReplyText(commentText)
