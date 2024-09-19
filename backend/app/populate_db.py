@@ -1,5 +1,5 @@
 from . import db
-from .models import Comment, User
+from .models import Comment, User, Vote
 
 
 def populate_db():
@@ -50,4 +50,18 @@ def populate_db():
     ]
 
     db.session.add_all(reply_comments)
+    db.session.commit()
+
+    votes = [
+        Vote(vote_type=True, comment_id="1", user_id="1"),
+        Vote(vote_type=True, comment_id="1", user_id="2"),
+        Vote(vote_type=True, comment_id="1", user_id="3"),
+        Vote(vote_type=False, comment_id="1", user_id="4"),
+        Vote(vote_type=True, comment_id="2", user_id="1"),
+        Vote(vote_type=True, comment_id="2", user_id="4"),
+        Vote(vote_type=False, comment_id="3", user_id="1"),
+        Vote(vote_type=False, comment_id="2", user_id="2"),
+    ]
+
+    db.session.add_all(votes)
     db.session.commit()
