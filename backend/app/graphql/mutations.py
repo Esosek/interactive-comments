@@ -1,8 +1,11 @@
 import graphene
+from graphql import GraphQLError
+
+from datetime import datetime
+
 from .. import db
 from ..models import Comment
 from .queries import CommentType
-from datetime import datetime
 
 
 class AddComment(graphene.Mutation):
@@ -28,3 +31,25 @@ class AddComment(graphene.Mutation):
         db.session.commit()
 
         return AddComment(comment=comment, ok=True)
+
+
+class RemoveComment(graphene.Mutation):
+    class Arguments:
+        id = graphene.ID()
+        user_id = graphene.ID()
+
+    ok = graphene.Boolean()
+
+    def mutate(self, _, id, user_id):
+        comment = Comment.query.get(id)
+
+        if not comment:
+            raise GraphQLError(f"Comment with id {id} not found")
+
+        if comment.user_id is not user_id:
+            raise GraphQLError(f"User id {user_id} does NOT author comment id {id}")
+
+        db.session.delete(comment)
+        db.session.commit()
+
+        return RemoveComment(ok=True)

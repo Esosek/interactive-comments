@@ -9,7 +9,9 @@ class Comment(db.Model):
     replying_to = Column(String(64))
     user_id = Column(String, ForeignKey("user.id"), nullable=False)
     parent_id = Column(String, ForeignKey("comment.id"), nullable=True)
-    votes = db.relationship("Vote", backref="comment", lazy=True)
+    votes = db.relationship(
+        "Vote", backref="comment", lazy=True, cascade="all, delete-orphan"
+    )
 
 
 class User(db.Model):
@@ -17,7 +19,9 @@ class User(db.Model):
     username = Column(String(64), nullable=False)
     image = Column(String(255), nullable=False)
     comments = db.relationship("Comment", backref="user", lazy=True)
-    votes = db.relationship("Vote", backref="user", lazy=True)
+    votes = db.relationship(
+        "Vote", backref="user", lazy=True, cascade="all, delete-orphan"
+    )
 
 
 class Vote(db.Model):
