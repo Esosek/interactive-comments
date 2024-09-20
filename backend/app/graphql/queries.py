@@ -1,6 +1,6 @@
 import graphene
 from graphene_sqlalchemy import SQLAlchemyObjectType
-from .models import Comment, User, Vote
+from ..models import Comment, User, Vote
 
 
 class VoteType(SQLAlchemyObjectType):
@@ -32,17 +32,3 @@ class CommentType(SQLAlchemyObjectType):
         upvotes = Vote.query.filter_by(comment_id=self.id, vote_type=True).count()
         downvotes = Vote.query.filter_by(comment_id=self.id, vote_type=False).count()
         return upvotes - downvotes
-
-
-class Query(graphene.ObjectType):
-    user = graphene.Field(UserType, id=graphene.ID(required=True))
-    comments = graphene.List(CommentType)
-
-    def resolve_user(self, _, id):
-        return User.query.get(id)
-
-    def resolve_comments(self, _):
-        return Comment.query.all()
-
-
-schema = graphene.Schema(query=Query)

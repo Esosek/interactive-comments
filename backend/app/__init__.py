@@ -19,7 +19,7 @@ def create_app():
         return app.redirect("/graphql")
 
     with app.app_context():
-        from app.schema import schema
+        from .graphql.schema import schema
         from .models import Comment
         from .populate_db import populate_db
 

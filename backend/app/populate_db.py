@@ -19,12 +19,12 @@ def populate_db():
     parent_comments = [
         Comment(
             content="Impressive! Though it seems the drag feature could be improved. But overall it looks incredible. You've nailed the design and the responsiveness at various breakpoints works really well.",
-            createdAt=1723535799,
+            created_at=1723535799,
             user_id=users[0].id,
         ),
         Comment(
             content="Woah, your project looks awesome! How long have you been coding for? I'm still new, but think I want to dive into React as well soon. Perhaps you can give me an insight on where I can learn React? Thanks!",
-            createdAt=1725090999,
+            created_at=1725090999,
             user_id=users[1].id,
         ),
     ]
@@ -35,14 +35,14 @@ def populate_db():
     reply_comments = [
         Comment(
             content="If you're still new, I'd recommend focusing on the fundamentals of HTML, CSS, and JS before considering React. It's very tempting to jump ahead but lay a solid foundation first.",
-            createdAt=1725609436,
+            created_at=1725609436,
             user_id=users[2].id,
             replying_to="maxblagun",
             parent_id=parent_comments[1].id,
         ),
         Comment(
             content="I couldn't agree more with this. Everything moves so fast and it always seems like everyone knows the newest library/framework. But the fundamentals are what stay constant.",
-            createdAt=1726124249,
+            created_at=1726124249,
             user_id=users[3].id,
             replying_to="ramsesmiron",
             parent_id=parent_comments[1].id,

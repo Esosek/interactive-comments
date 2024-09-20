@@ -4,7 +4,7 @@ from . import db
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(255), nullable=False)
-    createdAt = db.Column(db.Integer)
+    created_at = db.Column(db.Integer)
     replying_to = db.Column(db.String(64))
     user_id = db.Column(db.String, db.ForeignKey("user.id"), nullable=False)
     parent_id = db.Column(db.String, db.ForeignKey("comment.id"), nullable=True)
