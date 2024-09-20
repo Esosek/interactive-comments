@@ -6,6 +6,8 @@ This project is a fullstack application where users can add, edit, delete commen
 
 This project is based on the [Frontend Mentor](https://www.frontendmentor.io/) challenge: [Interactive Comments Section](https://www.frontendmentor.io/challenges/interactive-comments-section-iG1RugEG9/hub).
 
+**Note:** The application is still under development, and some backend features are not yet fully implemented.
+
 ## Technologies
 
 ### Frontend
@@ -82,6 +84,7 @@ npm run dev
 ```
 
 The frontend will be available at http://localhost:3000.
+Now, you should have both the frontend and backend running and ready for use!
 
 ## Key Features
 
