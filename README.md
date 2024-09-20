@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project is a fullstack application where users can add, edit, delete comments, reply to other users' comments, and upvote or downvote comments. It consists of a **Next.js** frontend and a **Flask** backend with GraphQL and SQLite.
+This project is a fullstack application where users can add, edit, delete comments, reply to other user's comments, and upvote or downvote comments. It consists of a **Next.js** frontend and a **Flask** backend with GraphQL and SQLite.
 
 This project is based on the [Frontend Mentor](https://www.frontendmentor.io/) challenge: [Interactive Comments Section](https://www.frontendmentor.io/challenges/interactive-comments-section-iG1RugEG9/hub).
 
@@ -84,6 +84,7 @@ npm run dev
 ```
 
 The frontend will be available at http://localhost:3000.
+
 Now, you should have both the frontend and backend running and ready for use!
 
 ## Key Features
