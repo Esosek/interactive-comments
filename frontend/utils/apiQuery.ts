@@ -1,21 +1,40 @@
 export async function getComments() {
   return await sendRequest(
     `
-    {
-      comments {
-        id
-        content
-        createdAt
-        user {
+      {
+        comments {
           id
-          username
-          image
+          content
+          createdAt
+          user {
+            id
+            username
+            image
+          }
+          parentId
+          replyingTo
         }
-        parentId
-        replyingTo
       }
-    }
-  `
+    `
+  )
+}
+
+export async function getVotes(userId: string) {
+  return await sendRequest(
+    `
+      {
+        comments {
+          id
+          totalVotes
+        }
+        user(id: ${userId}) {
+          votes {
+            commentId
+            voteType
+          }
+        }
+      }
+    `
   )
 }
 

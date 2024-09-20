@@ -3,6 +3,7 @@
 import Comment from '@/components/comments/Comment'
 import CommentInput from '@/components/comments/CommentInput'
 import { useCommentStore } from '@/stores/commentStore'
+import { useVoteStore } from '@/stores/voteStore'
 import { useEffect } from 'react'
 
 export default function Home() {
@@ -10,10 +11,12 @@ export default function Home() {
   const error = useCommentStore((state) => state.error)
   const getComments = useCommentStore((state) => state.getComments)
   const comments = useCommentStore((state) => state.computed.parentComments())
+  const getVotes = useVoteStore((state) => state.getVotes)
 
   useEffect(() => {
     getComments()
-  }, [getComments])
+    getVotes()
+  }, [getComments, getVotes])
 
   let content = (
     <>

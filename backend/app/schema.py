@@ -3,14 +3,19 @@ from graphene_sqlalchemy import SQLAlchemyObjectType
 from .models import Comment, User, Vote
 
 
+class VoteType(SQLAlchemyObjectType):
+    class Meta:
+        model = Vote
+
+
 class UserType(SQLAlchemyObjectType):
     class Meta:
         model = User
 
-    voted_comment_ids = graphene.List(graphene.Int)
+    votes = graphene.List(VoteType)
 
-    def resolve_voted_comment_ids(self, _):
-        return [vote.comment_id for vote in self.votes]
+    def resolve_votes(self, _):
+        return self.votes
 
 
 class CommentType(SQLAlchemyObjectType):
