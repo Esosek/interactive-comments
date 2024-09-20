@@ -63,6 +63,16 @@ export async function addComment(comment: UserComment) {
     `)
 }
 
+export async function removeComment(commentId: string, userId: string) {
+  return await sendRequest(
+    `mutation {
+  removeComment(id:"${commentId}", userId:"${userId}") {
+    ok
+  }
+}`
+  )
+}
+
 async function sendRequest(query: string) {
   let data: any
   let error: string | undefined

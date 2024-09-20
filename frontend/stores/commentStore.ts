@@ -2,7 +2,7 @@ import { create } from 'zustand'
 
 import { type UserComment } from '@/types/userComment'
 import { useUserStore } from './userStore'
-import { addComment, getComments } from '@/utils/apiQuery'
+import { addComment, getComments, removeComment } from '@/utils/apiQuery'
 
 type CommentStoreType = {
   comments: UserComment[]
@@ -69,20 +69,23 @@ export const useCommentStore = create<CommentStoreType>()((set, get) => {
       })
 
       if (error || !data.addComment.ok) {
-        console.log(error)
+        // TODO: Implement error feedback to user for all actions
         return
       }
-
-      console.log(data.addComment.comment)
 
       set((state) => {
         return { comments: [...state.comments, data.addComment.comment] }
       })
     },
-    deleteComment: (commentId) => {
-      set((state) => ({
-        comments: state.comments.filter((c) => c.id !== commentId),
-      }))
+    deleteComment: async (commentId) => {
+      if (loggedUser) {
+        const { data } = await removeComment(commentId, loggedUser.id)
+        if (data.removeComment.ok) {
+          set((state) => ({
+            comments: state.comments.filter((c) => c.id !== commentId),
+          }))
+        }
+      }
     },
     editComment: (commentId, updatedCommentText) => {
       const [replyToUsername, content] = splitReplyText(updatedCommentText)
