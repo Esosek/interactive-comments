@@ -19,6 +19,7 @@ class AddComment(graphene.Mutation):
     comment = graphene.Field(lambda: CommentType)
 
     def mutate(self, _, content, user_id, parent_id=None, replying_to=None):
+        # TODO: Validate comment fields before updating
         comment = Comment(
             parent_id=parent_id,
             content=content,
@@ -53,3 +54,29 @@ class RemoveComment(graphene.Mutation):
         db.session.commit()
 
         return RemoveComment(ok=True)
+
+
+class UpdateComment(graphene.Mutation):
+    class Arguments:
+        id = graphene.ID()
+        user_id = graphene.ID()
+        content = graphene.String()
+        replying_to = graphene.String(required=False)
+
+    ok = graphene.Boolean()
+
+    def mutate(self, _, id, user_id, content, replying_to=None):
+        comment = Comment.query.get(id)
+
+        if not comment:
+            raise GraphQLError(f"Comment with id {id} not found")
+
+        if comment.user_id is not user_id:
+            raise GraphQLError(f"User id {user_id} does NOT author comment id {id}")
+
+        # TODO: Validate content before updating
+
+        comment.content = content
+        comment.replying_to = replying_to
+        db.session.commit()
+        return UpdateComment(ok=True)

@@ -73,6 +73,23 @@ export async function removeComment(commentId: string, userId: string) {
   )
 }
 
+export async function updateComment(
+  commentId: string,
+  userId: string,
+  updatedText: string,
+  replyingTo?: string
+) {
+  return await sendRequest(
+    `mutation {
+  updateComment(id:"${commentId}", userId:"${userId}", content:"${updatedText}"${
+      replyingTo ? ', replyingTo:"${replyingTo}"' : ''
+    }) {
+    ok
+  }
+}`
+  )
+}
+
 async function sendRequest(query: string) {
   let data: any
   let error: string | undefined

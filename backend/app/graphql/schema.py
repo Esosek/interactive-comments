@@ -1,6 +1,6 @@
 import graphene
 from .queries import UserType, CommentType
-from .mutations import AddComment, RemoveComment
+from .mutations import AddComment, RemoveComment, UpdateComment
 from ..models import Comment, User
 
 
@@ -18,6 +18,7 @@ class Query(graphene.ObjectType):
 class Mutation(graphene.ObjectType):
     add_comment = AddComment.Field()
     remove_comment = RemoveComment.Field()
+    update_comment = UpdateComment.Field()
 
 
 schema = graphene.Schema(query=Query, mutation=Mutation)

@@ -2,7 +2,12 @@ import { create } from 'zustand'
 
 import { type UserComment } from '@/types/userComment'
 import { useUserStore } from './userStore'
-import { addComment, getComments, removeComment } from '@/utils/apiQuery'
+import {
+  addComment,
+  getComments,
+  removeComment,
+  updateComment,
+} from '@/utils/apiQuery'
 
 type CommentStoreType = {
   comments: UserComment[]
@@ -87,18 +92,23 @@ export const useCommentStore = create<CommentStoreType>()((set, get) => {
         }
       }
     },
-    editComment: (commentId, updatedCommentText) => {
+    editComment: async (commentId, updatedCommentText) => {
       const [replyToUsername, content] = splitReplyText(updatedCommentText)
       if (!content) {
         return
       }
-      set((state) => ({
-        comments: state.comments.map((c) =>
-          c.id === commentId
-            ? { ...c, content: content!, replyingTo: replyToUsername }
-            : c
-        ),
-      }))
+      if (loggedUser) {
+        const { data } = await updateComment(commentId, loggedUser.id, content)
+        if (data.updateComment.ok) {
+          set((state) => ({
+            comments: state.comments.map((c) =>
+              c.id === commentId
+                ? { ...c, content: content, replyingTo: replyToUsername }
+                : c
+            ),
+          }))
+        }
+      }
     },
   }
 })
