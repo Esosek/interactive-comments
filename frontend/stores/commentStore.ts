@@ -1,9 +1,8 @@
 import { create } from 'zustand'
-import { nanoid } from 'nanoid'
 
 import { type UserComment } from '@/types/userComment'
 import { useUserStore } from './userStore'
-import { getComments } from '@/utils/apiQuery'
+import { addComment, getComments } from '@/utils/apiQuery'
 
 type CommentStoreType = {
   comments: UserComment[]
@@ -21,23 +20,6 @@ type CommentStoreType = {
 
 export const useCommentStore = create<CommentStoreType>()((set, get) => {
   const loggedUser = useUserStore.getState().loggedUser
-
-  function createComment(
-    commentText: string,
-    commentParentId?: string,
-    replyingTo?: string
-  ): UserComment {
-    const now = Date.now()
-
-    return {
-      id: nanoid(),
-      parentId: commentParentId,
-      content: commentText,
-      createdAt: now,
-      user: loggedUser!,
-      replyingTo: replyingTo,
-    }
-  }
 
   function splitReplyText(commentText: string) {
     const regex = /@(\w+)(?:\s+(.*))?/
@@ -70,19 +52,31 @@ export const useCommentStore = create<CommentStoreType>()((set, get) => {
         comments: data?.comments ?? [],
       }))
     },
-    addComment: (commentText, parentCommentId) => {
+    addComment: async (commentText, parentCommentId) => {
       const [replyToUsername, content] = splitReplyText(commentText)
 
       if (!content) {
         return
       }
+
+      const { data, error } = await addComment({
+        id: '',
+        parentId: parentCommentId,
+        content: content,
+        createdAt: new Date(),
+        user: loggedUser!,
+        replyingTo: replyToUsername,
+      })
+
+      if (error || !data.addComment.ok) {
+        console.log(error)
+        return
+      }
+
+      console.log(data.addComment.comment)
+
       set((state) => {
-        const createdComment = createComment(
-          content!,
-          parentCommentId,
-          replyToUsername
-        )
-        return { comments: [...state.comments, createdComment] }
+        return { comments: [...state.comments, data.addComment.comment] }
       })
     },
     deleteComment: (commentId) => {

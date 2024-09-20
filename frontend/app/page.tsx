@@ -14,6 +14,7 @@ export default function Home() {
   const getVotes = useVoteStore((state) => state.getVotes)
 
   useEffect(() => {
+    // TODO: Merge to single query
     getComments()
     getVotes()
   }, [getComments, getVotes])

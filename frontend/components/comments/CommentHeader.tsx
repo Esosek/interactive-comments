@@ -6,16 +6,18 @@ import { useUserStore } from '@/stores/userStore'
 
 type CommentHeaderProps = {
   user: User
-  postedAt: number
+  postedAt: Date
 }
 
 export default function CommentHeader({ user, postedAt }: CommentHeaderProps) {
   const loggedUser = useUserStore((state) => state.loggedUser)
   const isUserOwned = loggedUser?.id === user.id
 
+  const postedTimeStamp = new Date(postedAt).getTime() / 1000
+
   function getTimeAgo() {
     const now = Date.now()
-    const secondsAgo = Math.floor(now / 1000 - postedAt)
+    const secondsAgo = Math.floor(now / 1000 - postedTimeStamp)
 
     const units = [
       { name: 'year', seconds: 60 * 60 * 24 * 365 },

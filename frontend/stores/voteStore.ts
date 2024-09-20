@@ -15,7 +15,7 @@ type VoteStoreType = {
     userCommentVote: (commentId: string) => boolean | undefined
   }
   getVotes: () => void
-  setScore: (commentId: string, isUpvote: boolean) => void
+  addVote: (commentId: string, isUpvote: boolean) => void
 }
 
 export const useVoteStore = create<VoteStoreType>()((set, get) => {
@@ -59,7 +59,8 @@ export const useVoteStore = create<VoteStoreType>()((set, get) => {
         }))
       }
     },
-    setScore(commentId, isUpvote) {
+    addVote(commentId, isUpvote) {
+      // TODO: Prevent loggedUser voting for his comments
       set((state) => {
         if (state.userVotes[commentId] === isUpvote) {
           return { ...state }

@@ -1,6 +1,8 @@
+import { UserComment } from '@/types/userComment'
+
 export async function getComments() {
-  return await sendRequest(
-    `
+  return await sendRequest({
+    query: `
       {
         comments {
           id
@@ -15,13 +17,13 @@ export async function getComments() {
           replyingTo
         }
       }
-    `
-  )
+    `,
+  })
 }
 
 export async function getVotes(userId: string) {
-  return await sendRequest(
-    `
+  return await sendRequest({
+    query: `
       {
         comments {
           id
@@ -34,20 +36,50 @@ export async function getVotes(userId: string) {
           }
         }
       }
-    `
-  )
+    `,
+  })
 }
 
-async function sendRequest(query: string) {
+export async function addComment(comment: UserComment) {
+  return await sendRequest({
+    query: `
+    mutation {
+      addComment(
+        content: "${comment.content.replace(/"/g, '\\"')}"
+        userId: "${comment.user.id}"
+        ${comment.replyingTo ? `replyingTo: "${comment.replyingTo}"` : ''}
+        ${comment.parentId ? `parentId: "${comment.parentId}"` : ''}
+      ) {
+    ok
+    comment {
+      id
+      parentId
+      content
+      createdAt
+      replyingTo
+      user {
+        id
+        username
+        image
+      }
+    }
+  }
+    }
+    `,
+  })
+}
+
+async function sendRequest(body: Record<string, string>) {
   let data: any
   let error: string | undefined
+
   try {
     const options: RequestInit = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ query: query }),
+      body: JSON.stringify(body),
     }
 
     const response = await fetch(

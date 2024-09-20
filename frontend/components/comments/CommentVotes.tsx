@@ -6,8 +6,8 @@ type CommentVotesProps = {
 }
 
 export default function CommentVotes({ commentId }: CommentVotesProps) {
-  const incrementVote = useVoteStore((state) => state.setScore)
-  const decrementVote = useVoteStore((state) => state.setScore)
+  const incrementVote = useVoteStore((state) => state.addVote)
+  const decrementVote = useVoteStore((state) => state.addVote)
   const score = useVoteStore((state) => state.computed.commentScore(commentId))
   const userVote = useVoteStore((state) =>
     state.computed.userCommentVote(commentId)
