@@ -1,8 +1,7 @@
 import { UserComment } from '@/types/userComment'
 
 export async function getComments() {
-  return await sendRequest({
-    query: `
+  return await sendRequest(`
       {
         comments {
           id
@@ -17,13 +16,11 @@ export async function getComments() {
           replyingTo
         }
       }
-    `,
-  })
+    `)
 }
 
 export async function getVotes(userId: string) {
-  return await sendRequest({
-    query: `
+  return await sendRequest(`
       {
         comments {
           id
@@ -36,13 +33,11 @@ export async function getVotes(userId: string) {
           }
         }
       }
-    `,
-  })
+    `)
 }
 
 export async function addComment(comment: UserComment) {
-  return await sendRequest({
-    query: `
+  return await sendRequest(`
     mutation {
       addComment(
         content: "${comment.content.replace(/"/g, '\\"')}"
@@ -65,11 +60,10 @@ export async function addComment(comment: UserComment) {
     }
   }
     }
-    `,
-  })
+    `)
 }
 
-async function sendRequest(body: Record<string, string>) {
+async function sendRequest(query: string) {
   let data: any
   let error: string | undefined
 
@@ -79,7 +73,7 @@ async function sendRequest(body: Record<string, string>) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(body),
+      body: JSON.stringify({ query: query }),
     }
 
     const response = await fetch(
