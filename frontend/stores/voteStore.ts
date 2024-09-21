@@ -67,8 +67,10 @@ export const useVoteStore = create<VoteStoreType>()((set, get) => {
         }
         let userVoted = Object.keys(state.userVotes).includes(commentId)
         if (userVoted) {
+          // TODO: Delete vote on BE
           delete state.userVotes[commentId]
         }
+        // TODO: Add vote on BE
         return {
           ...state,
           commentVotes: {

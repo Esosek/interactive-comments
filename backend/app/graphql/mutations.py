@@ -4,8 +4,8 @@ from graphql import GraphQLError
 from datetime import datetime
 
 from .. import db
-from ..models import Comment
-from .queries import CommentType
+from ..models import Comment, Vote
+from .queries import CommentType, VoteType
 
 
 class AddComment(graphene.Mutation):
@@ -80,3 +80,40 @@ class UpdateComment(graphene.Mutation):
         comment.replying_to = replying_to
         db.session.commit()
         return UpdateComment(ok=True)
+
+
+class SetVote(graphene.Mutation):
+    class Arguments:
+        comment_id = graphene.ID()
+        user_id = graphene.ID()
+        vote_type = graphene.Argument(graphene.Boolean, required=False)
+
+    ok = graphene.Boolean()
+    vote = graphene.Field(lambda: VoteType)
+
+    def mutate(self, _, comment_id, user_id, vote_type=None):
+        vote = Vote.query.filter_by(user_id=user_id, comment_id=comment_id).first()
+
+        if vote:
+            # Remove vote if vote_type is None
+            if vote_type is None:
+                db.session.delete(vote)
+                vote = None
+            else:
+                # Prevent voting the same vote type again
+                if vote.vote_type == vote_type:
+                    raise GraphQLError(
+                        f"Vote for commentId {comment_id} from userId {user_id} already exists with requested vote_type."
+                    )
+                # Update the vote type
+                vote.vote_type = vote_type
+        else:
+            # Create a new vote if it doesn't exist
+            if vote_type is not None:
+                vote = Vote(vote_type=vote_type, comment_id=comment_id, user_id=user_id)
+                db.session.add(vote)
+            else:
+                raise GraphQLError("Cannot create a new vote without a vote_type.")
+
+        db.session.commit()
+        return SetVote(vote=vote, ok=True)
