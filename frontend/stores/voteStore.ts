@@ -60,7 +60,6 @@ export const useVoteStore = create<VoteStoreType>()((set, get) => {
       }
     },
     async addVote(commentId, isUpvote) {
-      // TODO: Prevent loggedUser voting for his comments
       if (!loggedUser) {
         return
       }

@@ -3,9 +3,13 @@ import { useVoteStore } from '@/stores/voteStore'
 
 type CommentVotesProps = {
   commentId: string
+  isUserOwned: boolean
 }
 
-export default function CommentVotes({ commentId }: CommentVotesProps) {
+export default function CommentVotes({
+  commentId,
+  isUserOwned,
+}: CommentVotesProps) {
   const incrementVote = useVoteStore((state) => state.addVote)
   const decrementVote = useVoteStore((state) => state.addVote)
   const score = useVoteStore((state) => state.computed.commentScore(commentId))
@@ -17,7 +21,7 @@ export default function CommentVotes({ commentId }: CommentVotesProps) {
     <div className={styles.card}>
       <button
         onClick={() => incrementVote(commentId, true)}
-        disabled={userVote}
+        disabled={isUserOwned || userVote}
         className={styles.control}
       >
         <svg width='11' height='11' xmlns='http://www.w3.org/2000/svg'>
@@ -29,7 +33,7 @@ export default function CommentVotes({ commentId }: CommentVotesProps) {
       </p>
       <button
         onClick={() => decrementVote(commentId, false)}
-        disabled={userVote === false}
+        disabled={isUserOwned || userVote === false}
         className={styles.control}
       >
         <svg
