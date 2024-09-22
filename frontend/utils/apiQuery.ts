@@ -90,6 +90,25 @@ export async function updateComment(
   )
 }
 
+export async function setVote(
+  commentId: string,
+  userId: string,
+  voteType: boolean
+) {
+  return await sendRequest(
+    `mutation{
+  setVote(commentId:"${commentId}",userId:"${userId}", voteType:${voteType}) {
+    vote {
+      commentId
+      userId
+      voteType
+    }
+    ok
+  }
+}`
+  )
+}
+
 async function sendRequest(query: string) {
   let data: any
   let error: string | undefined

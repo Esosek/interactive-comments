@@ -86,34 +86,29 @@ class SetVote(graphene.Mutation):
     class Arguments:
         comment_id = graphene.ID()
         user_id = graphene.ID()
-        vote_type = graphene.Argument(graphene.Boolean, required=False)
+        vote_type = graphene.Boolean()
 
     ok = graphene.Boolean()
     vote = graphene.Field(lambda: VoteType)
 
-    def mutate(self, _, comment_id, user_id, vote_type=None):
+    def mutate(self, _, comment_id, user_id, vote_type):
+        # TODO: Prevent user voting for his comments
         vote = Vote.query.filter_by(user_id=user_id, comment_id=comment_id).first()
 
         if vote:
-            # Remove vote if vote_type is None
-            if vote_type is None:
+            if vote.vote_type == vote_type:
+                # Prevent voting the same vote type again
+                raise GraphQLError(
+                    f"Vote for commentId {comment_id} from userId {user_id} already exists with requested vote_type."
+                )
+            else:
+                # Delete current vote
                 db.session.delete(vote)
                 vote = None
-            else:
-                # Prevent voting the same vote type again
-                if vote.vote_type == vote_type:
-                    raise GraphQLError(
-                        f"Vote for commentId {comment_id} from userId {user_id} already exists with requested vote_type."
-                    )
-                # Update the vote type
-                vote.vote_type = vote_type
         else:
             # Create a new vote if it doesn't exist
-            if vote_type is not None:
-                vote = Vote(vote_type=vote_type, comment_id=comment_id, user_id=user_id)
-                db.session.add(vote)
-            else:
-                raise GraphQLError("Cannot create a new vote without a vote_type.")
+            vote = Vote(vote_type=vote_type, comment_id=comment_id, user_id=user_id)
+            db.session.add(vote)
 
         db.session.commit()
         return SetVote(vote=vote, ok=True)

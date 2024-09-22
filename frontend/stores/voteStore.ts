@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-import { getVotes } from '@/utils/apiQuery'
+import { getVotes, setVote } from '@/utils/apiQuery'
 import { useUserStore } from './userStore'
 
 type VoteStoreType = {
@@ -59,31 +59,51 @@ export const useVoteStore = create<VoteStoreType>()((set, get) => {
         }))
       }
     },
-    addVote(commentId, isUpvote) {
+    async addVote(commentId, isUpvote) {
       // TODO: Prevent loggedUser voting for his comments
-      set((state) => {
-        if (state.userVotes[commentId] === isUpvote) {
-          return { ...state }
-        }
-        let userVoted = Object.keys(state.userVotes).includes(commentId)
-        if (userVoted) {
-          // TODO: Delete vote on BE
-          delete state.userVotes[commentId]
-        }
-        // TODO: Add vote on BE
-        return {
-          ...state,
-          commentVotes: {
-            ...state.commentVotes,
-            [commentId]: isUpvote
-              ? state.commentVotes[commentId] + 1
-              : state.commentVotes[commentId] - 1,
-          },
-          userVotes: userVoted
-            ? { ...state.userVotes }
-            : { ...state.userVotes, [commentId]: isUpvote },
-        }
-      })
+      if (!loggedUser) {
+        return
+      }
+
+      // This vote already exists
+      if (get().userVotes[commentId] === isUpvote) {
+        return
+      }
+      const { data } = await setVote(commentId, loggedUser.id, isUpvote)
+      if (data.setVote.ok) {
+        set((state) => {
+          // Vote was deleted if it's null
+          if (!data.setVote.vote) {
+            delete state.userVotes[commentId]
+            return {
+              ...state,
+              commentVotes: {
+                ...state.commentVotes,
+                [commentId]: isUpvote
+                  ? state.commentVotes[commentId] + 1
+                  : state.commentVotes[commentId] - 1,
+              },
+              userVotes: {
+                ...state.userVotes,
+              },
+            }
+          }
+          const updatedVote = data.setVote.vote
+          return {
+            ...state,
+            commentVotes: {
+              ...state.commentVotes,
+              [updatedVote.commentId]: updatedVote.voteType
+                ? state.commentVotes[updatedVote.commentId] + 1
+                : state.commentVotes[updatedVote.commentId] - 1,
+            },
+            userVotes: {
+              ...state.userVotes,
+              [updatedVote.commentId]: updatedVote.voteType,
+            },
+          }
+        })
+      }
     },
   }
 })
