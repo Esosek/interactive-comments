@@ -1,5 +1,7 @@
 import { create } from 'zustand'
+import { nanoid } from 'nanoid'
 
+import mockData from '@/data.json'
 import { type UserComment } from '@/types/userComment'
 import { useUserStore } from './userStore'
 import {
@@ -53,8 +55,8 @@ export const useCommentStore = create<CommentStoreType>()((set, get) => {
       set((state) => ({
         ...state,
         isLoading: false,
-        error: error,
-        comments: data?.comments ?? [],
+        // error: error,
+        comments: data?.comments ?? mockData.comments, // Use mockData without backend
       }))
     },
     addComment: async (commentText, parentCommentId) => {
@@ -75,6 +77,18 @@ export const useCommentStore = create<CommentStoreType>()((set, get) => {
 
       if (error || !data.addComment.ok) {
         // TODO: Implement error feedback to user for all actions
+        // Add Comment locally to work without backend
+        const newComment = {
+          id: nanoid(),
+          parentId: parentCommentId,
+          content: content,
+          createdAt: new Date(),
+          user: loggedUser!,
+          replyingTo: replyToUsername,
+        }
+        set((state) => {
+          return { comments: [...state.comments, newComment] }
+        })
         return
       }
 
@@ -84,12 +98,15 @@ export const useCommentStore = create<CommentStoreType>()((set, get) => {
     },
     deleteComment: async (commentId) => {
       if (loggedUser) {
-        const { data } = await removeComment(commentId, loggedUser.id)
-        if (data.removeComment.ok) {
-          set((state) => ({
-            comments: state.comments.filter((c) => c.id !== commentId),
-          }))
+        const { data, error } = await removeComment(commentId, loggedUser.id)
+        if (error || !data.removeComment.ok) {
+          // TODO: Handle error case
+          // return
         }
+        // Always update the state so it works locally without backend
+        set((state) => ({
+          comments: state.comments.filter((c) => c.id !== commentId),
+        }))
       }
     },
     editComment: async (commentId, updatedCommentText) => {
@@ -98,16 +115,23 @@ export const useCommentStore = create<CommentStoreType>()((set, get) => {
         return
       }
       if (loggedUser) {
-        const { data } = await updateComment(commentId, loggedUser.id, content)
-        if (data.updateComment.ok) {
-          set((state) => ({
-            comments: state.comments.map((c) =>
-              c.id === commentId
-                ? { ...c, content: content, replyingTo: replyToUsername }
-                : c
-            ),
-          }))
+        const { data, error } = await updateComment(
+          commentId,
+          loggedUser.id,
+          content
+        )
+        if (error || !data.updateComment.ok) {
+          // TODO: Implement error handling
+          // Continue executing so it works locally without backend
+          // return
         }
+        set((state) => ({
+          comments: state.comments.map((c) =>
+            c.id === commentId
+              ? { ...c, content: content, replyingTo: replyToUsername }
+              : c
+          ),
+        }))
       }
     },
   }

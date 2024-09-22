@@ -113,6 +113,13 @@ async function sendRequest(query: string) {
   let data: any
   let error: string | undefined
 
+  if (!process.env.NEXT_PUBLIC_API_ENDPOINT) {
+    return {
+      data: undefined,
+      error: 'Connection to backend server failed. Missing path.',
+    }
+  }
+
   try {
     const options: RequestInit = {
       method: 'POST',
@@ -122,10 +129,7 @@ async function sendRequest(query: string) {
       body: JSON.stringify({ query: query }),
     }
 
-    const response = await fetch(
-      process.env.NEXT_PUBLIC_API_ENDPOINT ?? 'http://127.0.0.1:5000/graphql',
-      options
-    )
+    const response = await fetch(process.env.NEXT_PUBLIC_API_ENDPOINT, options)
 
     if (!response.ok) {
       return {
